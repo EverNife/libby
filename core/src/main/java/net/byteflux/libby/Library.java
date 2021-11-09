@@ -2,6 +2,7 @@ package net.byteflux.libby;
 
 import net.byteflux.libby.relocation.Relocation;
 
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
@@ -203,6 +204,38 @@ public class Library {
      */
     public String getRelocatedPath() {
         return relocatedPath;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Library library = (Library) o;
+
+        if (urls != null ? !urls.equals(library.urls) : library.urls != null) return false;
+        if (groupId != null ? !groupId.equals(library.groupId) : library.groupId != null) return false;
+        if (artifactId != null ? !artifactId.equals(library.artifactId) : library.artifactId != null) return false;
+        if (version != null ? !version.equals(library.version) : library.version != null) return false;
+        if (classifier != null ? !classifier.equals(library.classifier) : library.classifier != null) return false;
+        if (!Arrays.equals(checksum, library.checksum)) return false;
+        if (relocations != null ? !relocations.equals(library.relocations) : library.relocations != null) return false;
+        if (path != null ? !path.equals(library.path) : library.path != null) return false;
+        return relocatedPath != null ? relocatedPath.equals(library.relocatedPath) : library.relocatedPath == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = urls != null ? urls.hashCode() : 0;
+        result = 31 * result + (groupId != null ? groupId.hashCode() : 0);
+        result = 31 * result + (artifactId != null ? artifactId.hashCode() : 0);
+        result = 31 * result + (version != null ? version.hashCode() : 0);
+        result = 31 * result + (classifier != null ? classifier.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(checksum);
+        result = 31 * result + (relocations != null ? relocations.hashCode() : 0);
+        result = 31 * result + (path != null ? path.hashCode() : 0);
+        result = 31 * result + (relocatedPath != null ? relocatedPath.hashCode() : 0);
+        return result;
     }
 
     /**
