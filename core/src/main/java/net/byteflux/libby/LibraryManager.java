@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -71,6 +72,11 @@ public abstract class LibraryManager {
      * Luck's Jar Relocator
      */
     private RelocationHelper relocator;
+
+    /**
+     * A map of dependencies which have already been loaded.
+     */
+    protected final HashMap<Library, Path> loaded = new HashMap<>();
 
     /**
      * Creates a new library manager.
@@ -393,6 +399,9 @@ public abstract class LibraryManager {
      * If the provided library has any relocations, they will be applied to
      * create a relocated jar and the relocated jar will be loaded instead.
      *
+     * If the provided library has already been loaded, it will not be
+     * loaded again
+     *
      * @param library the library to load
      * @see #downloadLibrary(Library)
      */
@@ -402,7 +411,12 @@ public abstract class LibraryManager {
             file = relocate(file, library.getRelocatedPath(), library.getRelocations());
         }
 
+        if (loaded.containsKey(library)){
+            return;
+        }
+
         addToClasspath(file);
+        loaded.put(library, file);
     }
 
     /**

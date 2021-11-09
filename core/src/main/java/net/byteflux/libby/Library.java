@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 import static java.util.Objects.requireNonNull;
 
@@ -260,6 +261,28 @@ public class Library {
      */
     public static Builder builder() {
         return new Builder();
+    }
+
+    /**
+     * Creates a new library builder from a string.
+     *
+     * @dependencie A string contain NAME:ID:VERSION[:HASH] of a library
+     *
+     * @return new library builder
+     */
+    public static Library of(String dependencie){
+        String[] split = dependencie.split(Pattern.quote(":"));
+
+        Builder builder = Library.builder()
+            .groupId(split[0])
+            .artifactId(split[1])
+            .version(split[2]);
+
+        if (split.length > 3){
+            builder.checksum(split[3]);
+        }
+
+        return builder.build();
     }
 
     /**
