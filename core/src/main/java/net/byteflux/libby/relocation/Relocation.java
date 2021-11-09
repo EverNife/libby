@@ -102,6 +102,29 @@ public class Relocation {
         return new Builder();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Relocation that = (Relocation) o;
+
+        if (pattern != null ? !pattern.equals(that.pattern) : that.pattern != null) return false;
+        if (relocatedPattern != null ? !relocatedPattern.equals(that.relocatedPattern) : that.relocatedPattern != null)
+            return false;
+        if (includes != null ? !includes.equals(that.includes) : that.includes != null) return false;
+        return excludes != null ? excludes.equals(that.excludes) : that.excludes == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pattern != null ? pattern.hashCode() : 0;
+        result = 31 * result + (relocatedPattern != null ? relocatedPattern.hashCode() : 0);
+        result = 31 * result + (includes != null ? includes.hashCode() : 0);
+        result = 31 * result + (excludes != null ? excludes.hashCode() : 0);
+        return result;
+    }
+
     /**
      * Provides an alternative method of creating a {@link Relocation}. This
      * builder may be more intuitive for configuring relocations that also have
