@@ -429,7 +429,7 @@ public abstract class LibraryManager {
      * @param libraries the set of libraries to load
      * @see #downloadLibrary(Library)
      */
-    public void loadLibraries(Set<Library> libraries) {
+    public void loadLibrary(Collection<Library> libraries) {
         CountDownLatch latch = new CountDownLatch(libraries.size());
 
         final ThreadPoolExecutor scheduler = (ThreadPoolExecutor) Executors.newFixedThreadPool(libraries.size() >= 4 ? 4 : libraries.size());
