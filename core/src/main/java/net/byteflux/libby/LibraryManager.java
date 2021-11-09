@@ -75,8 +75,19 @@ public abstract class LibraryManager {
      * @param dataDirectory plugin's data directory
      */
     protected LibraryManager(LogAdapter logAdapter, Path dataDirectory) {
+        this(logAdapter, dataDirectory, "libs");
+    }
+
+    /**
+     * Creates a new library manager.
+     *
+     * @param logAdapter    plugin logging adapter
+     * @param dataDirectory plugin's data directory
+     * @param folderName    libs's folder name
+     */
+    protected LibraryManager(LogAdapter logAdapter, Path dataDirectory, String folderName) {
         logger = new Logger(requireNonNull(logAdapter, "logAdapter"));
-        saveDirectory = requireNonNull(dataDirectory, "dataDirectory").toAbsolutePath().resolve("lib");
+        saveDirectory = requireNonNull(dataDirectory, "dataDirectory").toAbsolutePath().resolve(folderName);
     }
 
     /**
@@ -206,7 +217,7 @@ public abstract class LibraryManager {
 
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
-            connection.setRequestProperty("User-Agent", LibbyProperties.HTTP_USER_AGENT);
+            connection.setRequestProperty("User-Agent", "libby/0.0.2-SNAPSHOT");
 
             try (InputStream in = connection.getInputStream()) {
                 int len;
